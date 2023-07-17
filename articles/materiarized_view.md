@@ -1,12 +1,12 @@
 ---
-title: "[PostgreSQL]マテリアライズドビューを利用して複雑なクエリのパフォーマンスを向上させる"
+title: "[PostgreSQL]複雑なクエリや集計処理に対する参照のパフォーマンスを向上させることのできるマテリアライズドビューについてまとめてみた"
 emoji: "🐡"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: [
   'PostgreSQL',
   'SQL'
 ]
-published: false
+published: true
 ---
 
 ## マテリアライズドビューとは
