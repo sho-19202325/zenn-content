@@ -10,10 +10,11 @@ published: false
 
 ## はじめに
 
-Azure Database For Postgresを使って開発する際、基本的にsuperuserを使用することができないので、
+Azure Database For Postgresを使って開発する際、
+基本的にsuperuserを使用することができないので、
 superadmin以外のユーザーを使ってデータベース/テーブルのOWNERを変更する必要がありました。
 
-解決方法はシンプルですが、データベースやテーブルのOWNERであれば```ALTER DATABASE db_name OWNER TO new_user```を実行できると思っていたので、改めて調べて記事にしてみました。
+方法はシンプルですが、データベースやテーブルのOWNERであれば```ALTER DATABASE db_name OWNER TO new_user```を実行できると思っていたので、改めて調べて記事にしてみました。
 
 ## 前提
 
@@ -66,10 +67,12 @@ ALTER TABLE test_table OWNER TO another_user
 参照元: [PostgreSQL 14.5文書 ALTER TABLE](https://www.postgresql.jp/document/14/html/sql-altertable.html)
 
 これはつまり、OWNERの変更を行うためには
-1. superuserであること
-2. データベース/テーブルのOWNERであり、かつ新しいOWNERのメンバーであるユーザーがCREATEDB権限を持っていること
+下記の1.2のうちいずれかを満たす必要があるということです。
+1. **superuserであること**
+2. **データベース/テーブルのOWNERが次の条件を満たすこと**
+  - **CREATEDB権限を持っている**
+  - **新しいOWNERのメンバーである**
 
-のいずれかを満たす必要があるということです。
 今回、test_userはOWNERであり、CREATEDB権限も持っていましたが、another_userのメンバーではなかったために、
 ```ALTER DATABASE/TABLE ... OWNER TO ...```の実行権限がなかったというわけです。
 
