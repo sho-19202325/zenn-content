@@ -1,5 +1,5 @@
 ---
-title: 'superuser以外のユーザーを使用してデータベース/テーブルのOWNERを変更する方法'
+title: '[PostgreSQL]superuser以外のユーザーを使用してデータベース/テーブルのOWNERを変更する方法'
 type: 'tech' # tech: 技術記事 / idea: アイデア
 topics: [
   'PostgreSQL',
