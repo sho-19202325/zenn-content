@@ -1,6 +1,6 @@
 ---
-title: "superuser以外のユーザーを使用してデータベース/テーブルのOWNERを変更する方法"
-type: "tech" # tech: 技術記事 / idea: アイデア
+title: 'superuser以外のユーザーを使用してデータベース/テーブルのOWNERを変更する方法'
+type: 'tech' # tech: 技術記事 / idea: アイデア
 topics: [
   'PostgreSQL',
   'SQL'
@@ -10,30 +10,32 @@ published: false
 
 ## はじめに
 
-Azure Database For Postgresを使って開発する際、
+Azure Database For Postgresを擁している時、
 基本的にsuperuserを使用することができないので、
 superadmin以外のユーザーを使ってデータベース/テーブルのOWNERを変更する必要がありました。
 
-方法はシンプルですが、データベースやテーブルのOWNERであれば```ALTER DATABASE db_name OWNER TO new_user```を実行できると思っていたので、改めて調べて記事にしてみました。
+何となく、データベースやテーブルのOWNERであれば```ALTER DATABASE db_name OWNER TO new_user```を実行できると思っていたのですが、
+OWNERであるだけだと、OWNERの変更クエリが実行できなかったので、改めて調べて記事にしてみました。
 
 ## 前提
 
-- CREATEDB権限を持ったsuperuserでないユーザー("test_user")が存在する
-- データベース("test_db"), テーブル("test_table")のOWNERは"test_user"
-- このオーナーを別のユーザー("another_user")に変更したい
+- CREATEDB権限を持ったsuperuserでないユーザー(test_user)が存在する
+- データベース(test_db), テーブル(test_table)のOWNERはtest_user
+- このオーナーを別のユーザー(another_user)に変更したい
 
 ## 現象
 
-test_dbのOWNERであるtest_userを使って下記を実行すると、"another_user"のメンバーではないとダメだと怒られます。
+OWNERであるtest_userを使って下記を実行すると、another_userのメンバーである必要があるとエラーメッセージが表示されます。
+
 ```SQL
 ALTER DATABASE test_db OWNER TO another_user
 ALTER TABLE test_table OWNER TO another_user
--- => ERROR:  must be member of role "another_user"
+-- => ERROR:  must be member of role another_user
 ```
 
 ## 解決策
 
-エラー文の通りtest_userをanother_userのメンバーにしてあげれば、OWNERの変更行えます。
+エラー文の通りtest_userをanother_userのメンバーに加えることで、OWNERの変更行えます。
 
 1. another_userでログインして下記を実行
     ```SQL
@@ -49,7 +51,7 @@ ALTER TABLE test_table OWNER TO another_user
 
 ## 解説
 
-公式ドキュメント(日本語版)を確認すると下記のような記載があります。
+公式ドキュメント(日本語版)には以下のような記述があります。
 
 ### ALTER DATABASE
 >3番目の構文は、データベースの所有者を変更します。 所有者を変更するにはデータベースを所有し、かつ、新しい所有者ロールの間接的あるいは直接的なメンバでなければなりません。
@@ -67,9 +69,9 @@ ALTER TABLE test_table OWNER TO another_user
 参照元: [PostgreSQL 14.5文書 ALTER TABLE](https://www.postgresql.jp/document/14/html/sql-altertable.html)
 
 これはつまり、OWNERの変更を行うためには
-下記の1.2のうちいずれかを満たす必要があるということです。
+下記の1.または2の条件を満たす必要があるということです。
 1. **superuserであること**
-2. **データベース/テーブルのOWNERが次の条件を満たすこと**
+2. **データベース/テーブルのOWNERで、かつ次の条件を満たすこと**
     - **CREATEDB権限を持っている**
     - **新しいOWNERのメンバーである**
 
@@ -79,8 +81,8 @@ ALTER TABLE test_table OWNER TO another_user
 ## 注意点
 
 test_userをanother_userのメンバーにしたまま放置していると、
-test_userが```SET ROLE```などを用いて、another_userが持っている権限を使用できる状態になってしまいます。
-完了したら下記を実行して、another_userのメンバーから除外することをお忘れなく。
+test_userが```SET ROLE```などを用いて、another_userが持つ権限を使用可能な状態になります。
+作業が完了したら下記のSQLを実行して、test_userをanother_userのメンバーから除外することを忘れないようにしましょう。
 
 ```SQL
 REVOKE another_user from test_user;
