@@ -12,7 +12,12 @@ published: false
 
 マネージドのPostgreSQLサーバーを使用している時に、superadmin以外のユーザーを使ってデータベース/テーブルのOWNERを変更する必要がありました。
 
-何となく、データベースやテーブルのOWNERであれば```ALTER DATABASE db_name OWNER TO new_user```を実行できると思っていたのですが、OWNERであるだけだと、上記SQLは実行することができませんでした。
+何となく、データベースやテーブルのOWNERであれば
+```SQL
+ALTER DATABASE db_name OWNER TO new_user
+```
+を実行できると思っていたのですが、
+OWNERであるだけだと、上記SQLは実行することができませんでした。
 その理由を調べてみたので今回記事として残しておきます。
 
 ## 前提
@@ -23,7 +28,8 @@ published: false
 
 ## 現象
 
-OWNERであるtest_userを使って下記を実行すると、another_userのメンバーである必要があるとエラーメッセージが表示されます。
+OWNERであるtest_userを使って下記を実行すると、
+another_userのメンバーである必要があるとエラーメッセージが表示されます。
 
 ```SQL
 ALTER DATABASE test_db OWNER TO another_user
@@ -73,7 +79,8 @@ ALTER TABLE test_table OWNER TO another_user
     - **CREATEDB権限を持っている**
     - **新しいOWNERのメンバーである**
 
-今回、test_userはOWNERであり、CREATEDB権限も持っていましたが、another_userのメンバーではなかったために、
+今回、test_userはOWNERであり、CREATEDB権限も持っていましたが、
+another_userのメンバーではなかったために、
 ```ALTER DATABASE/TABLE ... OWNER TO ...```の実行権限がなかったというわけです。
 
 ## 注意点
