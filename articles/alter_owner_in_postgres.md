@@ -70,8 +70,8 @@ ALTER TABLE test_table OWNER TO another_user
 下記の1.2のうちいずれかを満たす必要があるということです。
 1. **superuserであること**
 2. **データベース/テーブルのOWNERが次の条件を満たすこと**
-  - **CREATEDB権限を持っている**
-  - **新しいOWNERのメンバーである**
+    - **CREATEDB権限を持っている**
+    - **新しいOWNERのメンバーである**
 
 今回、test_userはOWNERであり、CREATEDB権限も持っていましたが、another_userのメンバーではなかったために、
 ```ALTER DATABASE/TABLE ... OWNER TO ...```の実行権限がなかったというわけです。
