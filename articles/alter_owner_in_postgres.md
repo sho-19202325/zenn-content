@@ -5,7 +5,8 @@ topics: [
   'PostgreSQL',
   'SQL'
 ]
-published: false
+emoji: "👌"
+published: true
 ---
 
 ## はじめに
