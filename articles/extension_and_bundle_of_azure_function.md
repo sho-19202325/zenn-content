@@ -105,10 +105,10 @@ nodejs環境でバインド拡張機能を使用するには
 拡張機能バンドルの各バージョンごとにインストールされる拡張機能のリストは公式がgithub上に公開している、
 [Azure/azure-functions-extension-bundles](https://github.com/Azure/azure-functions-extension-bundles)の[src/Microsoft.Azure.ExtensionBundle/extensions.json](https://github.com/Azure/azure-functions-extension-bundles/blob/v4.x/src/Microsoft.Azure.Functions.ExtensionBundle/extensions.json)を参照してください。
 
-こちらを見るとわかる通り、拡張機能バンドルを設定するだけで、各種バンドルで使用可能なリソースの拡張機能がインストールされるため、個別に拡張機能をインストールする必要がありません。
-
 適宜、確認したいバージョンにブランチのバージョンを合わせてください。
 公式ドキュメントに、[拡張機能バンドルのバージョンとリポジトリの表](https://learn.microsoft.com/ja-jp/azure/azure-functions/functions-bindings-register#extension-bundles:~:text=%E6%AC%A1%E3%81%AE%E8%A1%A8%E3%81%AB%E3%80%81%E7%8F%BE%E5%9C%A8%E4%BD%BF%E7%94%A8%E5%8F%AF%E8%83%BD%E3%81%AA%E6%97%A2%E5%AE%9A%E3%81%AE%20Microsoft.Azure.Functions.ExtensionBundle%20%E3%83%90%E3%83%B3%E3%83%89%E3%83%AB%E3%81%AE%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3%E7%AF%84%E5%9B%B2%E3%80%81%E3%81%8A%E3%82%88%E3%81%B3%E3%81%9D%E3%82%8C%E3%82%89%E3%81%AB%E5%90%AB%E3%81%BE%E3%82%8C%E3%82%8B%E6%8B%A1%E5%BC%B5%E6%A9%9F%E8%83%BD%E3%81%B8%E3%81%AE%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%92%E7%A4%BA%E3%81%97%E3%81%BE%E3%81%99%E3%80%82)が記載されているのでこちらも併せてご参照ください。
+
+こちらを見るとわかる通り、拡張機能バンドルを設定するだけで、各種バンドルで使用可能なリソースの拡張機能がインストールされるため、個別に拡張機能をインストールする必要がありません。
 
 拡張機能バンドルの使用は公式が推奨している方法であるため、基本的にはこちらを利用するのが良いと思います。
 
