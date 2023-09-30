@@ -3,7 +3,7 @@ title: "Azure Functionにバインド拡張機能を追加する方法"
 emoji: "👏"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["Azure"]
-published: false
+published: true
 ---
 
 ## はじめに
