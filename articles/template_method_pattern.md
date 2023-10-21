@@ -39,11 +39,11 @@ abstract class AbstractClass {
         this.method3();
     }
 
-    protected abstract method1() {}
+    protected abstract method1():void;
 
-    protected abstract method2() {}
+    protected abstract method2():void;
 
-    protected abstract method3() {}
+    protected abstract method3():void;
 }
 
 class ConcreteClass extends AbstractClass {
