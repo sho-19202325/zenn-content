@@ -3,7 +3,8 @@ title: "TypeScriptで理解するTemplate Method パターン"
 emoji: "📝"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["TypeScript", "DesignPattern"]
-published: false
+published: true
+published_at: 2023-10-23 10:00
 ---
 
 ## Template Methodパターンとは
