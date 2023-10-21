@@ -8,22 +8,25 @@ published: false
 
 ## Template Methodパターンとは
 
-Template Methodパターンとは、汎用的なアルゴリズムの骨格部分のみを親クラスに定義し、各処理の具体的な箇所をサブクラスに実装することで、
+Template Methodパターンとは、汎用的なアルゴリズムの骨格部分のみを親クラスに定義し、
+各処理の具体的な箇所をサブクラスに実装することで、
 同一の手順やフローを維持しつつ、異なる振る舞いを持たせることができるデザインパターンです。
 
 ## Template Method パターンの登場人物
 
-- AbstractClass(抽象クラス)
-AbstractClassは、テンプレートメソッドと、テンプレートメソッドで使用される抽象メソッドを定義するための抽象クラスです。
+- **AbstractClass(抽象クラス)**
+AbstractClassは、汎用的なアルゴリズムの骨格を実装するテンプレートメソッドと、
+その中で使用される抽象メソッドを定義するための抽象クラスです。
 汎用的な処理は、テンプレートメソッドとして実装され、具体的な処理は、サブクラスに実装を任せます。
 
-- ConcreteClass(具象クラス)
-ConcreteClassは、AbstractClassを継承し、抽象メソッドを実装することで、テンプレートメソッドを具体的に実装するための具像クラスです。
-共通の処理を維持しつつ、異なる振る舞いを持たせたい場合には、ConcreteClassを新しく実装するだけで済みます。
+- **ConcreteClass(具象クラス)**
+ConcreteClassは、AbstractClassを継承し、抽象メソッドを実装することで、
+テンプレートメソッドを具体的に実装するための具像クラスです。
+共通の処理を維持しつつ、異なる振る舞いを持たせたい場合には、ConcreteClassを複数実装します。
 
 ## Template Methodパターンのクラス図とサンプルコード
 
-AbstractClassとConcreteClassの関係を表したクラス図とサンプルコードは以下のようになります。
+下記はTemplate Methodパターンを表したクラス図とサンプルコードです。
 
 ![](/images/template_method_pattern/class_diagram.png)
 
@@ -60,11 +63,11 @@ class ConcreteClass extends AbstractClass {
 templateMethod()はテンプレートメソッドと呼ばれ、ここに汎用的な処理を実装します。
 今回のサンプルコードでは、method1(), method2(), method3()を呼び出しています。
 
-ConcreteClassでは、method1(), method2(), method3()を実装することで、
-サブクラス内でテンプレートメソッドの個別処理を具体的に実装することができます。
+ConcreteClassでは、method1(), method2(), method3()の具体処理を実装することで、
+サブクラス内でテンプレートメソッドの個別処理を具体的に実装しています。
 
-汎用的な処理の骨格を維持しつつ、個別処理の振る舞いを変えたい場合は、AbstractClassを継承したConcreateClassを新しく作成し、
-抽象メソッドを実装することで、テンプレートメソッドを具体的に実装することができます。
+汎用的な処理の骨格を維持しつつ、個別処理の振る舞いを変えたい場合は、
+AbstractClassを継承したConcreteClassを新しく作成し、各種抽象メソッドを実装します。
 
 ```TypeScript
 class ConcreteClass2 extends AbstractClass {
@@ -94,7 +97,8 @@ class ConcreteClass2 extends AbstractClass {
 6. ファイルを閉じる
 
 対応したいファイルの形式はJSONとCSVの2種類とします。
-形式によってバリデーションやパース、データの挿入の処理が異なるため、それぞれの処理は別々に実装する必要があります。
+形式によってバリデーションやパース、データの挿入の処理が異なるため、
+それぞれの処理は別々に実装する必要があります。
 
 実際にファイルやDBを用意して処理を実装するのは大変なので、
 下記のような出力結果を返すだけのクラスを実装してみます。
@@ -120,7 +124,7 @@ CsvImporter.execute();
 // Close file: file.csv
 ```
 
-まずは、Template Methodパターンを使わない場合を考えます。
+まずは、Template Methodパターンを使わない場合を考えてみます。
 ```TypeScript
 class JsonImporter {
     constructor(
@@ -191,8 +195,7 @@ class CsvImporter {
 }
 ```
 execute(), openFile(), closeFile()はどちらのクラスでも同じ処理を行っています。
-
-これらは冗長であり、処理を変更する場合には両方のクラスを変更する必要が出てきてしまいます。
+そのため、これらの処理を変更する場合には両方のクラスを変更する必要があります。
 
 今は二つの形式しか対応していないので、それほど問題にはなりませんが、
 たとえばXMLやYAMLなど、より多数の形式に対応するクラスが増えていくと、
@@ -256,7 +259,7 @@ class CsvImporter extends DataImporter {
 ```
 DataImporterクラスはAbstractClassに相当し、
 JsonImporterクラスやCsvImporterクラスはConcreteClassに相当します。
-また、execute()がテンプレートメソッドとなり、
+また、execute()がテンプレートメソッドであり、
 validateFile(), parseFile(), insertData()が抽象メソッドとなっています。
 
 このケースでは先ほどとは異なり、execute(), openFile(), closeFile()はDataImporterクラスに実装されています。
@@ -267,16 +270,15 @@ validateFile(), parseFile(), insertData()が抽象メソッドとなっていま
 また、validateFile(), parseFile(), insertData()は抽象メソッドとして定義されており、
 形式によって処理が異なる部分に関しては、サブクラスに実装を任せています。
 
-Template Methodパターンを使用することで、もしexecute()の処理を変更する場合には、
-DataImporterクラスのみを変更するだけで済みます。
-
-さらに、新しい形式が追加された場合には、DataImporterクラスを継承した新しいクラスを作成し、
+Template Methodパターンを使うことで、
+execute()の処理を変更する場合には、DataImporterクラスのみを変更するだけで済みます。
+さらに、新しい形式に対応したい場合には、DataImporterクラスを継承した新しい具像クラスを作成し、
 validateFile(), parseFile(), insertData()を実装するだけで済むようになります。
 
 ## Template Methodパターンが有効な場合/有効でない場合
 
 上記で見てきたように、Template Methodパターンは以下の場合に有効です。
-- 汎用的な処理を持ち、その処理の各ステップで異なる振る舞いを持つクラスを複数作成したい場合
+- 汎用的な処理を持ち、各ステップで異なる振る舞いを持つクラスを複数作成したい場合
 
 逆に、以下の場合ではあまり有効ではありません。
 - 共通する処理が少ない場合
